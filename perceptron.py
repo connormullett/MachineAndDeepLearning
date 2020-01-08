@@ -1,4 +1,6 @@
 
+import random
+
 from operator import mul
 
 
@@ -33,21 +35,27 @@ class Perceptron:
     self.weight = new_weight
 
 if __name__ == '__main__':
-  inp = (3, 4, 5, 10, 12)
-  trg = 0
-  input_dimension = len(inp)
-  perceptron = Perceptron(input_dimension)
-  print('input  : ', inp)
-  print('target : ', trg)
-  print('weight : ', perceptron.weights)
-  print('')
-  for iter in range(1, 5):
-    # pass to p
-    out = perceptron(inp)
-    if trg != out:
-      perceptron.update_weights(inp, trg)
-    print('%d' % (iter))
-    print('out   : ', out)
-    print('weight: ', perceptron.weights)
-    print('')
+  
+  inp = [[random.randint(1, 10) for _ in range(3)] for i in range(10)]
+  print(inp)
+  trg = [1 if sum(i) >= 15 else 0 for i in inp]
+  print('trg: ', trg)
+
+  perceptron = Perceptron(len(inp[0]))
+
+  for i in range(len(inp)):
+    out = perceptron(inp[i])
+    if trg[i] != out:
+      perceptron.update_weights(inp[i], trg[i])
+    print('%d' % (i + 1))
+    print('input  :', inp[i])
+    print('out    : ', out)
+    print('target : ', trg[i])
+    print('weight : ', perceptron.weights)
+
+  eval_inp = [5, 5, 5]
+  eval_trg = 1
+  eval_out = perceptron(eval_inp)
+  print(eval_trg)
+  print(eval_out)
 
